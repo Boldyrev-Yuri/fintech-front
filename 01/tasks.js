@@ -75,7 +75,29 @@ function fibonacciWithCache(x) {
  * @param  {number} cols количество столбцов
  * @return {string}
  */
-function printNumbers(max, cols) {}
+function printNumbers(max, cols) {
+  let rows;
+  if ((max + 1) < cols) {
+    cols = max + 1;
+    rows = 1;
+  } else {
+    rows = Math.floor((max + 1) / cols);
+    if ((max + 1) % cols > 0) rows += 1;
+    if (rows * cols - max - 1 >= rows) cols = Math.floor((max + 1) / rows + 1);
+  }
+  let string = '';
+  for (let i = 0; i < rows; i++) {
+    const shift = i >= (rows - ((rows * cols) - max - 1));
+    for (let j = 0; j < cols - shift; j++) {
+      const num = i + j * rows;
+      string += ' '.repeat(2 - String(num).length) 
+      + String(num) 
+      + ' '.repeat(1 - (j === (cols - shift - 1)));
+    }
+    string += '\n'.repeat(1 - (i  === (rows - 1)));
+  }
+  return string;
+}
 
 /* ============================================= */
 
@@ -88,9 +110,7 @@ function rle(input) {
   let last_seen = input[0];
   let i = 1;
   let output = '';
-  //for (let i = 1; i < input.length; i++) {
   while (i <= input.length) {
-    //console.log(input[i]);
     let q = 1;
     while (input[i] === last_seen) {
       q++;
