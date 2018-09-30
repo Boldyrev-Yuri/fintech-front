@@ -84,7 +84,30 @@ function printNumbers(max, cols) {}
  * @param  {string} value
  * @return {string}
  */
-function rle(input) {}
+function rle(input) {
+  let last_seen = input[0];
+  let i = 1;
+  let output = '';
+  //for (let i = 1; i < input.length; i++) {
+  while (i <= input.length) {
+    //console.log(input[i]);
+    let q = 1;
+    while (input[i] === last_seen) {
+      q++;
+      i++;
+    }
+    if (q > 1) {
+      output += last_seen;
+      output += String(q);
+      q = 1;
+    } else {
+      output += last_seen;
+    }
+    last_seen = input[i];
+    i++;
+  }
+  return output;
+}
 
 module.exports = {
   getMinMax,
