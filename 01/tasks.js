@@ -8,7 +8,27 @@
  * @return {{min: number, max: number}} объект с минимумом и максимумом
  * '1 и 6.45, -2, но 8, а затем 15, то есть 2.7 и -1028' => { min: -1028, max: 15 }
  */
-function getMinMax(string) {}
+function getMinMax(string) {
+  let min, max;
+  while (string.length > 0) {
+    const x = parseFloat(string);
+    if (!isNaN(x)) {
+      if (min === undefined || min > x) {
+        min = x;
+      }
+      if (max === undefined || max < x) {
+        max = x;
+      }
+      string = string.substring(String(x).length, string.length)
+    } else {
+      string = string.substring(1, string.length)
+    }
+  }
+  return {
+    min: min,
+    max: max
+  }
+}
 
 /* ============================================= */
 
