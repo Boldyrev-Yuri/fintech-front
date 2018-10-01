@@ -13,10 +13,10 @@ function getMinMax(string) {
   while (string.length > 0) {
     const x = parseFloat(string);
     if (!isNaN(x)) {
-      if (min === undefined || min > x) {
+      if (typeof(min) === 'undefined' || min > x) {
         min = x;
       }
-      if (max === undefined || max < x) {
+      if (typeof(max) === 'undefined' || max < x) {
         max = x;
       }
       string = string.substring(String(x).length, string.length)
@@ -54,8 +54,16 @@ function fibonacciSimple(x) {
  * @param {number} x номер числа
  * @return {number} число под номером х
  */
+let cache = {1: 1, 2: 1};
 function fibonacciWithCache(x) {
-  return x;
+    if (!cache[x]) {
+      if (x < 1) {
+        return 'Входной параметр не может быть меньше 1';
+      } else {
+        cache[x] = fibonacciWithCache(x - 2) + fibonacciWithCache(x - 1);
+      }
+    }
+    return cache[x];
 }
 
 /* ============================================= */
@@ -77,18 +85,22 @@ function fibonacciWithCache(x) {
  */
 function printNumbers(max, cols) {
   let rows;
-  if ((max + 1) < cols) {
-    cols = max + 1;
+  if ((max + 1) < cols) { //если входное кол-во столбцов слишком большое
+    cols = max + 1; 
     rows = 1;
   } else {
-    rows = Math.floor((max + 1) / cols);
-    if ((max + 1) % cols > 0) rows += 1;
-    if (rows * cols - max - 1 >= rows) cols = Math.floor((max + 1) / rows + 1);
+    rows = Math.floor((max + 1) / cols); //округляем вниз
+    //если есть остаток от деления, то понадобится еще одна строка:
+    if ((max + 1) % cols > 0) {
+      rows += 1;
+    }
   }
   let string = '';
   for (let i = 0; i < rows; i++) {
+    //сдвиг для случаев, когда не все строки заполнены полностью
     const shift = i >= (rows - ((rows * cols) - max - 1));
     for (let j = 0; j < cols - shift; j++) {
+      //вычисляем очередное число
       const num = i + j * rows;
       string += ' '.repeat(2 - String(num).length) 
       + String(num) 
@@ -116,12 +128,10 @@ function rle(input) {
       q++;
       i++;
     }
+    output += last_seen;
     if (q > 1) {
-      output += last_seen;
       output += String(q);
       q = 1;
-    } else {
-      output += last_seen;
     }
     last_seen = input[i];
     i++;
