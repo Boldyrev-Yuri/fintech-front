@@ -48,7 +48,20 @@ function customBind(func, context, ...args) {
  * sum :: void -> Number
  */
 function sum(x) {
-  return 0;
+  let currentSum = typeof x !== 'undefined' ? x : 0;
+
+  function nextSum(y) {
+    if (typeof y !== 'undefined') {
+      currentSum += y;
+    }
+    return nextSum;
+  }
+
+  nextSum.toString = function() {
+    return currentSum;
+  };
+
+  return nextSum;
 }
 
 /*= ============================================ */
