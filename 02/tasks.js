@@ -7,10 +7,21 @@
  * Доп. задание: предложите несколько вариантов решения.
  */
 function timer(logger = console.log) {
-  for (var i = 0; i < 10; i++) {
+  for (let i = 0; i < 10; i++) {
     setTimeout(() => {
       logger(i);
     }, 100);
+  }
+}
+
+//  Другой вариант исправления
+function timer2(logger = console.log) {
+  for (var i = 0; i < 10; i++) {
+    setTimeout((function(nestedI) {
+      return () => {
+        logger(nestedI);
+      };
+    }(i)), 100);
   }
 }
 
