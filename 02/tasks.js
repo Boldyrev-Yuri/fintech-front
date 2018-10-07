@@ -14,7 +14,7 @@ function timer(logger = console.log) {
   }
 }
 
-//  Другой вариант исправления
+// Другой вариант исправления
 function timer2(logger = console.log) {
   for (var i = 0; i < 10; i++) {
     setTimeout((function(nestedI) {
@@ -48,20 +48,17 @@ function customBind(func, context, ...args) {
  * sum :: void -> Number
  */
 function sum(x) {
-  let currentSum = typeof x !== 'undefined' ? x : 0;
-
-  function nextSum(y) {
-    if (typeof y !== 'undefined') {
-      currentSum += y;
+  const answer = y => {
+    if (typeof (y) === 'undefined') {
+      return x;
     }
-    return nextSum;
-  }
-
-  nextSum.toString = function() {
-    return currentSum;
+    return sum(x + y);
   };
 
-  return nextSum;
+  if (typeof (x) === 'undefined') {
+    return 0;
+  }
+  return answer;
 }
 
 /*= ============================================ */
@@ -73,7 +70,22 @@ function sum(x) {
  * @return {boolean}
  */
 function anagram(first, second) {
-  return false;
+  const firstLength = first.length;
+
+  if (firstLength !== second.length) {
+    return false;
+  }
+  for (let i = 0; i < first.length; i++) {
+    const index = second.indexOf(first[i]);
+
+    if (index !== -1) {
+      console.log(index, second[index]);
+      delete second[index];
+    } else {
+      return false;
+    }
+  }
+  return true;
 }
 
 /*= ============================================ */
