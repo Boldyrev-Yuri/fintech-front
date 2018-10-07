@@ -75,11 +75,10 @@ function anagram(first, second) {
   if (firstLength !== second.length) {
     return false;
   }
-  for (let i = 0; i < first.length; i++) {
+  for (let i = 0; i < firstLength; i++) {
     const index = second.indexOf(first[i]);
 
     if (index !== -1) {
-      console.log(index, second[index]);
       delete second[index];
     } else {
       return false;
@@ -97,7 +96,14 @@ function anagram(first, second) {
  * @return {Array<number>} массив уникальных значений, отсортированный по возрастанию
  */
 function getUnique(arr) {
-  return [];
+  const outputArr = [];
+
+  for (let i = 0; i < arr.length; i++) {
+    if (outputArr.indexOf(arr[i]) === -1) {
+      outputArr.push(arr[i]);
+    }
+  }
+  return outputArr.sort();
 }
 
 /**
