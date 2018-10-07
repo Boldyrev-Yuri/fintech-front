@@ -124,7 +124,9 @@ function getIntersection(first, second) {
     return arr.sort((a, b) => a - b);
   };
 
-  return first.length >= second.length ? findIntersection(second, first) : findIntersection(first, second);
+  return first.length >= second.length ?
+    findIntersection(second, first) :
+    findIntersection(first, second);
 }
 
 /* ============================================= */
@@ -143,7 +145,20 @@ function getIntersection(first, second) {
  * @return {boolean}
  */
 function isIsomorphic(left, right) {
+  let charReplaced = false;
+  const leftLength = left.length;
 
+  if (leftLength !== right.length) {
+    return false;
+  }
+  for (let i = 0; i < leftLength; i++) {
+    if (left[i] !== right[i] && !charReplaced) {
+      charReplaced = true;
+    } else if (charReplaced) {
+      return false;
+    }
+  }
+  return true;
 }
 
 module.exports = {
