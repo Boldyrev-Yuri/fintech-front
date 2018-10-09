@@ -87,11 +87,58 @@ module.exports = {
 /**
  * Игра продолжается, пока пользователь не угадает. После этого выводит в консоль результат.
  */
-// function guessNumberA() {}
+function guessNumberA() {
+  const num = Math.floor(Math.random() * 100 + 1);
+  let answer = 0;
+  let s = '';
+
+  while (answer !== num) {
+    answer = parseInt(window.prompt(`${s} Введите число: `, 0), 10);
+    if (isNaN(answer)) {
+      s = 'Это не число!';
+    } else if (answer < num) {
+      s = 'Cлишком мало. Попробуйте еще раз.';
+    } else if (answer > num) {
+      s = 'Cлишком много. Попробуйте еще раз.';
+    }
+  }
+  alert('В точку!');
+}
 
 /**
  * По завершению игры пользователю предлагается сыграть еще раз. После каждого тура выводится последний и лучший результаты.
  */
-// function guessNumberB() {}
+function guessNumberB() {
+  let lastPlayerScore = 0;
+  let bestPlayerScore = Infinity;
+  let anotherGame = true;
+
+  function playGame() {
+    const num = Math.floor(Math.random() * 100 + 1);
+    let answer = 0;
+    let s = '';
+    let i = 0;
+
+    while (answer !== num) {
+      answer = parseInt(window.prompt(`${s} Введите число: `, 0), 10);
+      if (isNaN(answer)) {
+        s = 'Это не число!';
+      } else if (answer < num) {
+        s = 'Cлишком мало. Попробуйте еще раз.';
+      } else if (answer > num) {
+        s = 'Cлишком много. Попробуйте еще раз.';
+      }
+      i++;
+    }
+    lastPlayerScore = i;
+    bestPlayerScore = Math.min(bestPlayerScore, i);
+    alert(`В точку! Ваш последний результат: ${lastPlayerScore}. Ваш лучший: ${bestPlayerScore}.`);
+    return confirm('Хотите сыграть еще раз?');
+  }
+
+  while (anotherGame) {
+    anotherGame = playGame();
+  }
+}
 
 /* =====  End of НЕ ВОШЛО В РЕЛИЗ  ====== */
