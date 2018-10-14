@@ -36,7 +36,7 @@ function pickPeaks(arr){
                 pos.push(plat[0]);
                 peaks.push(arr[plat[0]]);
                 plat = [];
-            } else {
+            } else if(arr[i+1] > arr[i]) {
                 plat = [];
             }
         }
@@ -93,7 +93,7 @@ function pickPeaks(arr){
 // whoIsNext(["Sheldon", "Leonard", "Penny", "Rajesh", "Howard"], 7230702951)=="Leonard"
 
 function whoIsNext(names, r){
-    let len = 0,
+    let len = 1,
         i = 0,
         j = 0,
         jMax = names.length - 1;
