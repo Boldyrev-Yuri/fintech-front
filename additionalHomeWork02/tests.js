@@ -21,6 +21,27 @@ describe('Additional lesson 2 ', () => {
           pos: [2],
           peaks: [5]
         });
+
+        expect(
+            pickPeaks([3, 2, 1, 2, 3])
+        ).to.eql({
+          pos: [],
+          peaks: []
+        });
+
+        expect(
+            pickPeaks([3, 4, 5, 5, 5])
+        ).to.eql({
+          pos: [],
+          peaks: []
+        });
+
+        expect(
+            pickPeaks([3, 3, 3, 4, 5, 5, 5, 1])
+        ).to.eql({
+          pos: [4],
+          peaks: [5]
+        });
       });
     });
 
@@ -29,6 +50,9 @@ describe('Additional lesson 2 ', () => {
           expect(whoIsNext(["Sheldon", "Leonard", "Penny", "Rajesh", "Howard"], 1)).to.be('Sheldon');
           expect(whoIsNext(["Sheldon", "Leonard", "Penny", "Rajesh", "Howard"], 9)).to.be('Leonard');
           expect(whoIsNext(["Sheldon", "Leonard", "Penny", "Rajesh", "Howard"], 19)).to.be('Sheldon');
+          expect(whoIsNext(["Maria", "John", "Jack"], 4)).to.be('Maria');
+          expect(whoIsNext(["Maria", "John", "Jack"], 7)).to.be('John');
+          expect(whoIsNext(["Maria", "John", "Jack"], 20)).to.be('Jack');
         });
     });
 });
