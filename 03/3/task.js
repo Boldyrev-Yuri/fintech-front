@@ -11,17 +11,18 @@ function promiseAll(promises) {
     const promisesLength = promises.length;
     let numberOfPromises = 0;
 
-    promises.forEach((promise, i) => {
-      promise
-        .then(value => {
-          resolveValues[i] = value;
+    promises.reduce((total, current, i) =>
+      total
+        .then(value => current)
+        .then(value => { 
           numberOfPromises++;
+          resolveValues[i] = value;
           if (numberOfPromises === promisesLength) {
             resolve(resolveValues);
           }
         })
-        .catch(error => reject(error));
-    })
+        .catch(error => reject(error))
+      , Promise.resolve(null));
   });
 
   return resultPromise;

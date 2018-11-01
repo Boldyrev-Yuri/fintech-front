@@ -7,11 +7,11 @@
 
 function promiseRace(promises) {
   const resultPromise = new Promise((resolve, reject) => {
-    promises.forEach(promise => {
-      promise
+    promises.reduce((total, current) =>
+      current
         .then(value => resolve(value))
-        .catch(error => reject(error));
-    })
+        .catch(error => reject(error))
+      , Promise.resolve(null));
   });
 
   return resultPromise;
