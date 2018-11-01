@@ -11,8 +11,8 @@ function promiseAll(promises) {
     const promisesLength = promises.length;
     let numberOfPromises = 0;
 
-    for (let i = 0; i < promisesLength; i++) {
-      promises[i]
+    promises.forEach((promise, i) => {
+      promise
         .then(value => {
           resolveValues[i] = value;
           numberOfPromises++;
@@ -21,7 +21,7 @@ function promiseAll(promises) {
           }
         })
         .catch(error => reject(error));
-    }
+    })
   });
 
   return resultPromise;
