@@ -7,10 +7,21 @@
  * Доп. задание: предложите несколько вариантов решения.
  */
 function timer(logger = console.log) {
-  for (var i = 0; i < 10; i++) {
+  for (let i = 0; i < 10; i++) {
     setTimeout(() => {
       logger(i);
     }, 100);
+  }
+}
+
+// Другой вариант исправления
+function timer2(logger = console.log) {
+  for (var i = 0; i < 10; i++) {
+    setTimeout((function(nestedI) {
+      return () => {
+        logger(nestedI);
+      };
+    }(i)), 100);
   }
 }
 
@@ -24,7 +35,9 @@ function timer(logger = console.log) {
  * @return {Function} функция с нужным контекстом
  */
 function customBind(func, context, ...args) {
-
+  return (...funcArgs) => {
+    return func.apply(context, args.concat(funcArgs));
+  };
 }
 
 /*= ============================================ */
@@ -37,7 +50,17 @@ function customBind(func, context, ...args) {
  * sum :: void -> Number
  */
 function sum(x) {
-  return 0;
+  const answer = y => {
+    if (typeof (y) === 'undefined') {
+      return x;
+    }
+    return sum(x + y);
+  };
+
+  if (typeof (x) === 'undefined') {
+    return 0;
+  }
+  return answer;
 }
 
 /*= ============================================ */
@@ -49,7 +72,21 @@ function sum(x) {
  * @return {boolean}
  */
 function anagram(first, second) {
-  return false;
+  const firstLength = first.length;
+
+  if (firstLength !== second.length) {
+    return false;
+  }
+  for (let i = 0; i < firstLength; i++) {
+    const index = second.indexOf(first[i]);
+
+    if (index !== -1) {
+      delete second[index];
+    } else {
+      return false;
+    }
+  }
+  return true;
 }
 
 /*= ============================================ */
@@ -61,7 +98,14 @@ function anagram(first, second) {
  * @return {Array<number>} массив уникальных значений, отсортированный по возрастанию
  */
 function getUnique(arr) {
-  return [];
+  const outputArr = [];
+
+  for (let i = 0; i < arr.length; i++) {
+    if (outputArr.indexOf(arr[i]) === -1) {
+      outputArr.push(arr[i]);
+    }
+  }
+  return outputArr.sort((a, b) => a - b);
 }
 
 /**
@@ -71,7 +115,20 @@ function getUnique(arr) {
  * @return {Array<number>} массив уникальных значений, отсортированный по возрастанию
  */
 function getIntersection(first, second) {
-  return [];
+  const findIntersection = (...restArrays) => {
+    const arr = [];
+
+    for (let i = 0; i < restArrays[0].length; i++) {
+      if (restArrays[1].indexOf(restArrays[0][i]) !== -1) {
+        arr.push(restArrays[0][i]);
+      }
+    }
+    return arr.sort((a, b) => a - b);
+  };
+
+  return first.length >= second.length ?
+    findIntersection(second, first) :
+    findIntersection(first, second);
 }
 
 /* ============================================= */
@@ -90,7 +147,20 @@ function getIntersection(first, second) {
  * @return {boolean}
  */
 function isIsomorphic(left, right) {
+  let charReplaced = false;
+  const leftLength = left.length;
 
+  if (leftLength !== right.length) {
+    return false;
+  }
+  for (let i = 0; i < leftLength; i++) {
+    if (left[i] !== right[i] && !charReplaced) {
+      charReplaced = true;
+    } else if (charReplaced) {
+      return false;
+    }
+  }
+  return true;
 }
 
 module.exports = {
