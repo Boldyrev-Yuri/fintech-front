@@ -6,7 +6,15 @@
  */
 
 function promiseRace(promises) {
-  return Promise.resolve(null);
+  const resultPromise = new Promise((resolve, reject) => {
+    promises.reduce((total, current) =>
+      current
+        .then(value => resolve(value))
+        .catch(error => reject(error))
+      , Promise.resolve(null));
+  });
+
+  return resultPromise;
 }
 
 module.exports = promiseRace;
