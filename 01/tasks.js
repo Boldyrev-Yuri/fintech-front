@@ -92,9 +92,13 @@ function guessNumberA() {
   let answer = 0;
   let s = '';
   let i = 0;
-  console.log(num);
+
   while (answer !== num) {
-    answer = parseInt(window.prompt(`${s} Введите число: `, 0), 10);
+    answer = window.prompt(`${s} Введите число: `, 0);
+    if (answer === null) {
+      return answer;
+    }
+    answer = parseInt(answer, 10);
     if (isNaN(answer)) {
       s = 'Это не число!';
     } else if (answer < num) {
@@ -118,6 +122,9 @@ function guessNumberB() {
 
   while (anotherGame) {
     lastPlayerScore = guessNumberA();
+    if (lastPlayerScore === null) {
+      return;
+    }
     bestPlayerScore = Math.min(bestPlayerScore, lastPlayerScore);
     alert(`Ваш последний результат: ${lastPlayerScore}. Ваш лучший: ${bestPlayerScore}.`);
     anotherGame = confirm('Хотите сыграть еще раз?');
