@@ -18,34 +18,35 @@
 //
 // Have fun!
 
-function pickPeaks(arr){
-    let pos = [],
-        peaks = [],
+function pickPeaks(numbers) {
+  let positions = [];
+  let peaks = [];
+  let plat = [];
+  
+  for (let i = 1; i < numbers.length; i++) {
+    if (numbers[i-1] < numbers[i]) {
+      if (numbers[i+1] === numbers[i]) {
+        plat.push(i);
+      }
+      if (numbers[i+1] < numbers[i]) {
+        positions.push(i);
+        peaks.push(numbers[i]);
+      }
+    } else if (plat.length > 0) {
+      if (numbers[i+1] < numbers[i]) {
+        positions.push(plat[0]);
+        peaks.push(numbers[plat[0]]);
+      }
+      if (numbers[i+1] !== numbers[i]){
         plat = [];
-
-    for(let i = 1; i < arr.length; i++) {
-        if(arr[i-1] < arr[i]) {
-            if(arr[i+1] === arr[i]) {
-                plat.push(i);
-            } else if(arr[i+1] < arr[i]) {
-                pos.push(i);
-                peaks.push(arr[i]);
-            }
-        } else if(plat.length > 0) {
-            if(arr[i+1] < arr[i]) {
-                pos.push(plat[0]);
-                peaks.push(arr[plat[0]]);
-                plat = [];
-            } else {
-                plat = [];
-            }
-        }
+      }
     }
+  }
 
-    return {
-        pos,
-        peaks,
-    };
+  return {
+    positions,
+    peaks,
+  };
 }
 
 
@@ -92,27 +93,26 @@ function pickPeaks(arr){
 // whoIsNext(["Sheldon", "Leonard", "Penny", "Rajesh", "Howard"], 52)=="Penny"
 // whoIsNext(["Sheldon", "Leonard", "Penny", "Rajesh", "Howard"], 7230702951)=="Leonard"
 
-function whoIsNext(names, r){
-    let len = 0,
-        i = 0,
-        j = 0,
-        jMax = names.length - 1;
-    while(len < r) {
-        len = len + Math.pow(2, i);
-        if(r < len) {
-            break;
-        } else if(j < jMax) {
-            j++;
-        } else {
-            j = 0;
-            i++;
-        }
-    }
+function whoIsNext(names, numberInQueue) {
+  let lenOfQueue = 1;
+  let numberOfClones = 0;
+  let currentName = 0;
+  const maxName = names.length - 1;
 
-    return names[j];
+  while (lenOfQueue < numberInQueue) {
+    if (currentName < maxName) {
+      currentName++;
+    } else {
+      currentName = 0;
+      numberOfClones++;
+    }
+    lenOfQueue += Math.pow(2, numberOfClones);
+  }
+
+  return names[currentName];
 }
 
 module.exports = {
-    pickPeaks,
-    whoIsNext
+  pickPeaks,
+  whoIsNext
 };
